@@ -32,36 +32,43 @@ public class oneLinkService {
 	public OnelinkEntity newlink(String name,String iosLink, String andriodLink,String desktopLink) {
 		oneLinkDomain domain = new oneLinkDomain();
 		
-		try {
-		    URL url = new URL(iosLink);
-		    URLConnection conn = url.openConnection();
-		    conn.connect();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format IOS Link");
-		} catch (IOException e) {
-			throw new RuntimeException("Connect Error");
+		if (iosLink != null)
+		{
+			try {
+			    URL url = new URL(iosLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format IOS Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
 		
-
-		try {
-		    URL url = new URL(andriodLink);
-		    URLConnection conn = url.openConnection();
-		    conn.connect();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format Andriod Link");
-		} catch (IOException e) {
-			throw new RuntimeException("Connect Error");
+		if (andriodLink != null)
+		{
+			try {
+			    URL url = new URL(andriodLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format Andriod Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
 		
-
-		try {
-		    URL url = new URL(desktopLink);
-		    URLConnection conn = url.openConnection();
-		    conn.connect();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format Desktop Link");
-		} catch (IOException e) {
-			throw new RuntimeException("Connect Error");
+		if (desktopLink != null)
+		{
+			try {
+			    URL url = new URL(desktopLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format Desktop Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
 		
 		List<String> inputList = new ArrayList<String>();
