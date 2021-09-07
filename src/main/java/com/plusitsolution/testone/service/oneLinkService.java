@@ -37,7 +37,7 @@ public class oneLinkService {
 		    URLConnection conn = url.openConnection();
 		    conn.connect();
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format Link");
+			throw new RuntimeException("Unvalid Format IOS Link");
 		} catch (IOException e) {
 			throw new RuntimeException("Connect Error");
 		}
@@ -48,7 +48,7 @@ public class oneLinkService {
 		    URLConnection conn = url.openConnection();
 		    conn.connect();
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format Link");
+			throw new RuntimeException("Unvalid Format Andriod Link");
 		} catch (IOException e) {
 			throw new RuntimeException("Connect Error");
 		}
@@ -59,7 +59,7 @@ public class oneLinkService {
 		    URLConnection conn = url.openConnection();
 		    conn.connect();
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unvalid Format Link");
+			throw new RuntimeException("Unvalid Format Desktop Link");
 		} catch (IOException e) {
 			throw new RuntimeException("Connect Error");
 		}
@@ -84,6 +84,16 @@ public class oneLinkService {
 		shortUrl = Hashing.murmur3_32().hashString(oriUrl.concat(time.toString()), 
 		StandardCharsets.UTF_8).toString()
 ;		System.out.println(shortUrl);
+
+		if (onelinkrepo.findByName(name) != null) {
+			
+			throw new RuntimeException("This name already exist");
+		}
+		else if (onelinkrepo.findByGenerateLink(shortUrl) != null) {
+			
+			throw new RuntimeException("This link already exist");
+		}
+
 		domain.setName(name);
 		domain.setGenerateLink(shortUrl);
 		domain.setIosLink(iosLink);
@@ -105,32 +115,59 @@ public class oneLinkService {
 	    return pngData;
 	}
 	
-	public OnelinkEntity updateLink(String name,String iOSLink, String andLink,String desktopLink) {
+	public OnelinkEntity updateLink(String name,String iosLink, String andriodLink,String desktopLink) {
 		
 		if (name == null)
 		{
 			throw new RuntimeException("This Link's name doesn't exist");
 		}
-		else if (iOSLink == null)
+		
+		if (iosLink != null)
 		{
-			throw new RuntimeException("IOS Link doesn't exist");
+			try {
+			    URL url = new URL(iosLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format IOS Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
-		else if (andLink == null)
+		
+		if (andriodLink != null)
 		{
-			throw new RuntimeException("Andriod Link doesn't exist");
+			try {
+			    URL url = new URL(andriodLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format Andriod Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
-		else if (desktopLink == null)
+		
+		if (desktopLink != null)
 		{
-			throw new RuntimeException("Desktop Link doesn't exist");
+			try {
+			    URL url = new URL(desktopLink);
+			    URLConnection conn = url.openConnection();
+			    conn.connect();
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Unvalid Format Desktop Link");
+			} catch (IOException e) {
+				throw new RuntimeException("Connect Error");
+			}
 		}
 		
 		OnelinkEntity entity = onelinkrepo.findByName(name);
 		if(entity == null) {
-			throw new RuntimeException("Link doesn't exist");
+			throw new RuntimeException("This Link's name doesn't exist");
 		}
 		entity.setName(name);
-		entity.setIosLink(iOSLink);
-		entity.setAndriodLink(andLink);
+		entity.setIosLink(iosLink);
+		entity.setAndriodLink(andriodLink);
 		entity.setDesktopLink(desktopLink);
 		return onelinkrepo.save(entity);
 	}
